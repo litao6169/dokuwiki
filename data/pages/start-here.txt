@@ -1,0 +1,72 @@
+====== Embedded Linux Development ======
+Just for fun~~~\\
+
+
+===== Entertainment  =====
+{{rss>http://feed.feedsky.com/qiushi}}
+
+===== Hardware =====
+{{m9ii_demo.pdf}}
+{{doc:sch:m9w_v3.pdf|M9原理图}}
+
+===== U-boot =====
+
+uboot从emmc启动失败原因：\\
+  - 烧写emmc错误，未校验是否写入正常。
+  - 在拷贝uboot到内存之前调高emmc时钟，导致拷贝失败；可适当降低时钟频率。
+===== Linux =====
+==== Linux Device Driver ====
+=== Power mangement ===
+记录Linux电源管理技术(Runtime pm,DVFS,Idle,Sleep&&Wake up)及相关问题。
+  * [[linux:ldd:runtime-pm|Runtime pm]]
+  * [[linux:ldd:cpu-hotplug|CPU-hotplug]]
+  * [[linux:ldd:dvfs|DVFS]]
+  * [[linux:ldd:idle|Idle]]
+  * [[linux:ldd:sleep|Sleep&&Wake up]]
+  * [[linux:ldd:early-suspend|Early Suspend]]
+  * [[linux:ldd:wakelock|Wakelock]]
+
+
+==== Kernel Debug&&Hack ====
+  * [[linxu:kdebug:console|Console]]
+  * [[linux:kdebug:printk|Printk]]
+  * [[linux:kdebug:kgdb|KGDB]]
+  * [[linux:kdebug:sysrq|System Request key]]
+  * [[linux:kdebug:fiq|Fiq]]
+  * [[linux:kdebug:trace32|Trace32]]
+
+
+==== File Systems ====
+  * [[linux:fs:rootfs|Rootfs]]
+  * [[linux:fs:ext4:Ext4]]
+  * [[linux:fs:ntfs-3g:NTFS]]
+
+
+==== Regular Expression ====
+在计算机科学中，是指一个用来描述或者匹配一系列符合某个句法规则的字符串的单个字符串。在很多文本编辑器或其他工具里，\\
+正则表达式通常被用来检索和/或替换那些符合某个模式的文本内容。许多程序设计语言都支持利用正则表达式进行字符串操作。
+
+  * [[linux:rege|Rege]]
+
+==== Shell ====
+
+
+==== Develop Tools ====
+  * [[tools:vim|Vim]]
+  * [[tools:minicom|Minicom]]
+  * [[tools:kermit|Kermit]]
+  * [[tools:meld|Meld]]
+
+
+===== Android =====
+
+
+===== Revision Control =====
+
+  * [[vcs:git:Git]]
+  * [[vcs:svn:Svn]]
+
+
+===== English =====
+{{rss>http://www.hjenglish.com/rss/ts.xml 5 author date}}
+

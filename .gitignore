@@ -1,0 +1,25 @@
+#dokuwiki .gitignore
+
+#data/attic
+*.txt.gz
+*.gz
+
+#data/cache
+*.i
+*.xhtml
+*.metadata
+*.code
+*.js.gz
+*.css.gz
+
+#data/index
+*.idx
+
+#data/media_attic
+#data/media_meta
+*.changes
+
+#data/meta
+*.indexed
+*.meta
+*.trimmed

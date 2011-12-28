@@ -1,0 +1,22 @@
+====== EXT4 ======
+
+==== Mount options for ext4 ====
+
+在Android中用emmc做data区时，mount时加上noauto_da_alloc选项，可以大幅提高I/O测试分数。
+
+<code>
+auto_da_alloc|noauto_da_alloc
+              Many broken applications don't use fsync() when noauto_da_alloc replacing existing files via patterns such as
+
+              fd = open("foo.new")/write(fd,..)/close(fd)/ rename("foo.new", "foo")
+
+              or worse yet
+
+              fd = open("foo", O_TRUNC)/write(fd,..)/close(fd).
+
+              If auto_da_alloc is enabled, ext4 will detect the replace-via-rename and replace-via-truncate patterns and force that any delayed allocation  blocks  are
+              allocated  such that at the next journal commit, in the default data=ordered mode, the data blocks of the new file are forced to disk before the rename()
+              operation is commited.  This provides roughly the same level of guarantees as ext3, and avoids the "zero-length" problem that can happen  when  a  system
+              crashes before the delayed allocation blocks are forced to disk.
+              
+</code>

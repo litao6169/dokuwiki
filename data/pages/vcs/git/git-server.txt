@@ -1,0 +1,104 @@
+===== Ubuntu11.04+ 本机搭建Git Server =====
+
+==== 安装所需软件 ====
+
+  litao@litao:~$ sudo aptitude install git-core openssh-server openssh-client gitolite git-daemon-run gitweb
+
+
+==== 安装gitolite到指定用户 ====
+  * 生成管理员ssh pub key
+
+<code>
+litao@litao:~$ ssh-keygen -t rsa                  ;连续3次Enter.
+litao@litao:~$ cp .ssh/id_rsa.pub /tmp/lita.pub
+litao@litao:~$ chmod 0666 /tmp/litao.pub          ;重要,否则不能clone gitolite-admin.git.
+</code>
+
+  * 添加git用户
+<code>
+litao@litao:~$ sudo adduser git
+</code>
+
+  * 把gitolte安装在git用户下
+<code>
+git@litao:~$ gl-setup /tmp/litao.pub
+</code>
+
+安装成功后,在用户主目录下生成 [repositories],[.gitolite],projects.list,.gitolite.rc；在~/.ssh/authorized_keys中gitolite自动加入管理员ssh访问权限。gitolite-admin用户的增删时自动管理此文件。
+
+==== 配置gitolite ====
+
+  * 修改.gitolite.rc以便gitweb和git-daemon可以访问。
+<code>
+# the default umask for repositories is 0077; change this if you run stuff
+# like gitweb and find it can't read the repos.  Please note the syntax;  the
+# leading 0 is required
+
+# $REPO_UMASK = 0077;         # gets you 'rwx------'
+# $REPO_UMASK = 0027;       # gets you 'rwxr-x---'
+$REPO_UMASK = 0022;       # gets you 'rwxr-xr-x
+</code>
+
+  * 更改repositories里所有项目权限，使得gitweb有权限访问。
+
+<code>
+ git@litao:~/repositories$ find -type d | xargs -i chmod 0755 {}
+ git@litao:~/repositories$ find -type f | xargs -i chmod 0644 {}
+ git@litao:~/repositories$ find -name hooks | xargs -i chmod a+x {} -R
+</code>
+
+
+此时便可以通过ssh公钥克隆(更新) gitolite-admin.git
+
+  litao@litao:/tmp$ git clone git@localhost:gitolite-admin.git
+
+
+  * git-daemon 读取支持
+
+  litao@litao:/tmp$ vi gitolite-admin/conf/gitolite.conf
+
+<code>
+repo    gitolite-admin
+        RW+     =   litao
+        R       =   daemon
+</code>
+
+  litao@litao:/tmp/gitolite-admin$ git push origin master
+
+这实际上是在gitolite-admin.git根目录下创建了一个git-daemon-export-ok的空文件。
+项目权限管理参考:/etc/gitolite/example.conf
+
+
+==== 配置git-daemon ====
+先停止git-daemon服务,配置git-daemon路径，重启git-daemon服务。
+<code>
+sudo sv down git-daemon
+sudo vi /etc/sv/git-daemon/run
+----
+  4 exec chpst -ugitdaemon \
+  5   "$(git --exec-path)"/git-daemon --verbose --base-path=/home/git/repositories /home/git/repositories
+----
+sudo sv up git-daemon
+</code>
+
+
+==== 配置gitweb ====
+指定gitweb projectroot 路径
+
+<code>
+litao@litao:~$ sudo vi /etc/gitweb.conf
+----
+# path to git projects (<project>.git)
+$projectroot = "/home/git/repositories";
+----
+</code>
+
+此时便可以能过浏览器查看项目：
+  //localhost/gitweb
+
+
+Refs:\\
+  * [[http://www.ossxp.com/doc/git/gitolite.html|Gitolite构建Git服务器]]
+  * http://blogt.chinaunix.net/space.php?uid=9398085&do=blog&id=2420908
+  * [[http://computercamp.cdwilson.us/git-gitolite-git-daemon-gitweb-setup-on-ubunt|git-gitolite-git-daemon-gitweb-setup-on-ubuntu]]
+  * http://www.mmncs.com/2011/07/how-to-install-and-setup-a-git-repository-server-using-gitolite-on-linux-ubuntu-11-04-server-and-client/

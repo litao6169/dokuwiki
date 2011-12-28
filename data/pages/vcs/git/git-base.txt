@@ -1,0 +1,9 @@
+====== Git基本用法 ======
+
+==== 基本配置 ====
+  litao@litao:~$ git config --global user.name litao
+  litao@litao:~$ git config --global user.email litao@meizu.com
+  litao@litao:~$ git config --global core.editor vim
+
+
+==== Level 3 Headline ====

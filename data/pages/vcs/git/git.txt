@@ -1,0 +1,15 @@
+====== Git ======
+Git是Linus Torvalds为了帮助管理Linux内核开发而开发的一个开放源码的版本控制软件。
+
+
+  * [[git-server|git + gitolite + git-daemon + gitweb setup on Ubuntu 11.04]]
+  * [[git-base|Git基本用法]]
+
+
+
+
+Refs:
+
+  * [[http://progit.org/|pro git]]
+  * [[http://book.git-scm.com/|Git Community Book]]
+  * [[http://www.worldhello.net/gotgit/Git权威指南]]
