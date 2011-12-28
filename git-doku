@@ -1,0 +1,18 @@
+#! /bin/sh
+
+#change dokuwiki to user first
+. ./chown-user.sh
+
+#git sync
+	case "$1" in
+		"push" | "pull" )
+		 	echo git $1 origin master
+			git $1 origin master
+			;;
+		*)
+			echo $1 is invalid,please use pull or push
+			;;
+	esac
+
+#change dokuwiki back to www-data
+. ./chown-www-data.sh
